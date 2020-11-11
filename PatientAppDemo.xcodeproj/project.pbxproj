@@ -109,7 +109,7 @@
 		D4A66217255C496C0081570F /* ResearchKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ResearchKit.xcodeproj; path = SMARTMarkers/ResearchKit/ResearchKit.xcodeproj; sourceTree = "<group>"; };
 		D4A66221255C49760081570F /* SwiftSMART.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SwiftSMART.xcodeproj; path = SMARTMarkers/SwiftSMART/SwiftSMART.xcodeproj; sourceTree = "<group>"; };
 		D4AD20B1209AAD990050AF19 /* SMART.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = SMART.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		D4C9EA542098F57E006D41DB /* EASIPRO-Home.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "EASIPRO-Home.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		D4C9EA542098F57E006D41DB /* SMARTMarkers Patient.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "SMARTMarkers Patient.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D4C9EA572098F57E006D41DB /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D4C9EA5E2098F57E006D41DB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		D4C9EA602098F57E006D41DB /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -165,6 +165,20 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		D4A66231255CA54B0081570F /* Meta */ = {
+			isa = PBXGroup;
+			children = (
+				D42EDE90238D80F40010C17C /* Extensions.swift */,
+				D4D30255209BFCF800125855 /* App+Config.swift */,
+				D4C9EA652098F57E006D41DB /* Info.plist */,
+				D4DFD99F224137A10097B958 /* EASIPRO-Home.entitlements */,
+				D4C9EA5D2098F57E006D41DB /* Main.storyboard */,
+				D4C9EA622098F57E006D41DB /* LaunchScreen.storyboard */,
+				D4C9EA602098F57E006D41DB /* Assets.xcassets */,
+			);
+			name = Meta;
+			sourceTree = "<group>";
+		};
 		D4C9EA4B2098F57E006D41DB = {
 			isa = PBXGroup;
 			children = (
@@ -183,7 +197,7 @@
 		D4C9EA552098F57E006D41DB /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				D4C9EA542098F57E006D41DB /* EASIPRO-Home.app */,
+				D4C9EA542098F57E006D41DB /* SMARTMarkers Patient.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -191,18 +205,12 @@
 		D4C9EA562098F57E006D41DB /* EASIPRO-Home */ = {
 			isa = PBXGroup;
 			children = (
-				D4DFD99F224137A10097B958 /* EASIPRO-Home.entitlements */,
+				D4A66231255CA54B0081570F /* Meta */,
 				D4C9EA572098F57E006D41DB /* AppDelegate.swift */,
-				D4C9EA5D2098F57E006D41DB /* Main.storyboard */,
-				D4C9EA602098F57E006D41DB /* Assets.xcassets */,
-				D4C9EA622098F57E006D41DB /* LaunchScreen.storyboard */,
-				D4C9EA652098F57E006D41DB /* Info.plist */,
-				D4C9EA6B2098F66F006D41DB /* MainViewController.swift */,
 				D45DE6392099FA3D00D3C6A2 /* MainCell.swift */,
+				D4C9EA6B2098F66F006D41DB /* MainViewController.swift */,
 				D45DE640209A0F4000D3C6A2 /* ChartsViewController.swift */,
 				D461C7FB209A4C7F0084A85C /* DetailViewController.swift */,
-				D4D30255209BFCF800125855 /* App+Config.swift */,
-				D42EDE90238D80F40010C17C /* Extensions.swift */,
 			);
 			path = "EASIPRO-Home";
 			sourceTree = "<group>";
@@ -221,9 +229,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		D4C9EA532098F57E006D41DB /* EASIPRO-Home */ = {
+		D4C9EA532098F57E006D41DB /* PatientAppDemo */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = D4C9EA682098F57E006D41DB /* Build configuration list for PBXNativeTarget "EASIPRO-Home" */;
+			buildConfigurationList = D4C9EA682098F57E006D41DB /* Build configuration list for PBXNativeTarget "PatientAppDemo" */;
 			buildPhases = (
 				D4C9EA502098F57E006D41DB /* Sources */,
 				D4C9EA512098F57E006D41DB /* Frameworks */,
@@ -234,9 +242,9 @@
 			);
 			dependencies = (
 			);
-			name = "EASIPRO-Home";
+			name = PatientAppDemo;
 			productName = "EASIPRO-Home";
-			productReference = D4C9EA542098F57E006D41DB /* EASIPRO-Home.app */;
+			productReference = D4C9EA542098F57E006D41DB /* SMARTMarkers Patient.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -260,7 +268,7 @@
 					};
 				};
 			};
-			buildConfigurationList = D4C9EA4F2098F57E006D41DB /* Build configuration list for PBXProject "EASIPRO-Home" */;
+			buildConfigurationList = D4C9EA4F2098F57E006D41DB /* Build configuration list for PBXProject "PatientAppDemo" */;
 			compatibilityVersion = "Xcode 8.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -287,7 +295,7 @@
 			);
 			projectRoot = "";
 			targets = (
-				D4C9EA532098F57E006D41DB /* EASIPRO-Home */,
+				D4C9EA532098F57E006D41DB /* PatientAppDemo */,
 			);
 		};
 /* End PBXProject section */
@@ -515,8 +523,8 @@
 				INFOPLIST_FILE = "EASIPRO-Home/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = org.chip.promarkers;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_BUNDLE_IDENTIFIER = org.chip.smartmarkers.patient;
+				PRODUCT_NAME = "SMARTMarkers Patient";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -533,8 +541,8 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				ONLY_ACTIVE_ARCH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = org.chip.promarkers;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_BUNDLE_IDENTIFIER = org.chip.smartmarkers.patient;
+				PRODUCT_NAME = "SMARTMarkers Patient";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -543,7 +551,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		D4C9EA4F2098F57E006D41DB /* Build configuration list for PBXProject "EASIPRO-Home" */ = {
+		D4C9EA4F2098F57E006D41DB /* Build configuration list for PBXProject "PatientAppDemo" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				D4C9EA662098F57E006D41DB /* Debug */,
@@ -552,7 +560,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		D4C9EA682098F57E006D41DB /* Build configuration list for PBXNativeTarget "EASIPRO-Home" */ = {
+		D4C9EA682098F57E006D41DB /* Build configuration list for PBXNativeTarget "PatientAppDemo" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				D4C9EA692098F57E006D41DB /* Debug */,

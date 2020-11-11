@@ -15,19 +15,12 @@ import SMART
 class MainViewController: UITableViewController {
     
     // Get fhir manager from the appDelegate
-    lazy var fhir: FHIRManager! = {
+    lazy var manager: FHIRManager! = {
         
         let fhr = (UIApplication.shared.delegate as! AppDelegate).fhir
-        
-        fhr?.onPatientSet = { [weak self] in
-            DispatchQueue.main.async {
-                self?.loadAllRequestsAndReports()
-            }
-        }
         return fhr
     }()
     
-    public var sessionController : SessionController?
     
     public var tasks : [TaskSet]? {
         didSet {
@@ -37,6 +30,48 @@ class MainViewController: UITableViewController {
     
 
     @IBOutlet weak var btnLogin: UIBarButtonItem!
+	
+	// *******************************************************
+	// Step 3: SMART Authorization Sequence
+	@IBAction func loginAction(_ sender: Any) {
+        
+        manager.authorize { [weak self] (success, userName, error) in
+            if success {
+                if let patientName = userName {
+                    self?.title = patientName
+                }
+            }
+            else {
+                if let error = error {
+                    self?.showMsg(msg: "Authorization Failed.\n\(error.asOAuth2Error.localizedDescription)")
+                }
+            }
+        }
+	}
+    
+    // *******************************************************
+	// Step 4: SMART Authorization Sequence
+	@IBAction func refreshPage(_ sender: Any) {
+		guard let patient = manager.patient else { return }
+		self.title = "Loading.."
+
+		TaskController.Requests(requestType: ServiceRequest.self,
+								for: patient,
+								server: manager.main.server,
+								instrumentResolver: self) { [weak self] (controllers, error) in
+			DispatchQueue.main.async {
+				if let controllers = controllers {
+					self?.tasks = self?.sort(controllers)
+				}
+				if nil != error { print(error! as Any) }
+				self?.markStandby()
+			}
+		}
+    }
+	
+	
+	
+	
     
     lazy var Today: String = {
         let formatter = DateFormatter()
@@ -44,6 +79,13 @@ class MainViewController: UITableViewController {
         formatter.timeStyle = .none
         return formatter.string(from: Date())
     }()
+	
+	
+	
+	
+	
+	
+	
 	
 
     // MARK: - Table view data source
@@ -76,31 +118,13 @@ class MainViewController: UITableViewController {
     
     @IBAction func showPatientProfile(_ sender: Any) {
 		
-        if fhir.patient == nil {
+        if manager.patient == nil {
             loginAction(sender)
         }
     }
     
-    
-    @IBAction func refreshPage(_ sender: Any) {
-        loadAllRequestsAndReports()
-    }
 	
-	@IBAction func loginAction(_ sender: Any) {
-        
-        fhir.authorize { [weak self] (success, userName, error) in
-            if success {
-                if let patientName = userName {
-                    self?.title = patientName
-                }
-            }
-            else {
-                if let error = error {
-                    self?.showMsg(msg: "Authorization Failed.\n\(error.asOAuth2Error.localizedDescription)")
-                }
-            }
-        }
-	}
+
 	
 	func reloadOnMain() {
 		DispatchQueue.main.async {
@@ -111,30 +135,12 @@ class MainViewController: UITableViewController {
 		}
 	}
 	
-	open func loadAllRequestsAndReports() {
-        
-		guard let p = fhir.patient else { return }
-        self.title = "Loading.."
-        let srv = fhir.main.server
-        TaskController.Requests(requestType: ServiceRequest.self, for: p, server: srv, instrumentResolver: self) { [weak self] (controllers, error) in
-            DispatchQueue.main.async {
-                if let controllers = controllers {
-                    self?.tasks = self?.sort(controllers)
-                }
-                if nil != error { print(error! as Any) }
-                self?.markStandby()
-            }
-        }
-    }
-	
-	
-	
 	open func markStandby() {
 		DispatchQueue.main.async {
-			let _title = self.fhir.patient?.humanName ?? "PGHD Requests"
+			let _title = self.manager.patient?.humanName ?? "PGHD Requests"
 			self.title = _title
 			self.tableView.reloadData()
-			if self.fhir.patient != nil {
+			if self.manager.patient != nil {
 				self.btnLogin.title = ""
 			}
 		}
@@ -170,11 +176,6 @@ extension MainViewController {
             }
         }
         
-        let iOS = TaskSet(tasks: [
-            TaskController(instrument: Instruments.HealthKit.HealthRecords.instance)
-        ], status: "iOS Health Record")
-        sets.append(iOS)
-        
         return sets
     }
 }
@@ -195,7 +196,7 @@ extension MainViewController: InstrumentResolver {
         
         if let url = controller.request?.rq_instrumentMetadataQuestionnaireReferenceURL {
             // PROMIS/AssessmentCenter hosted Questionnaire
-            if url.absoluteString.contains("https://mss.fsm.northwestern.edu"), let promisServer = fhir.promis?.server {
+            if url.absoluteString.contains("https://mss.fsm.northwestern.edu"), let promisServer = manager.promis?.server {
                 let questionnaireId = url.lastPathComponent
                 let semaphore = DispatchSemaphore(value: 0)
                 Questionnaire.read(questionnaireId, server: promisServer) { (resource, error) in
@@ -216,7 +217,7 @@ extension MainViewController: InstrumentResolver {
         else
         if let code = controller.request?.rq_code {
             if code.system?.absoluteString == "http://omronhealthcare.com" {
-                callback(Instruments.Web.OmronBloodPressure.instance(authSettings: FHIRManager.OmronAuthSettings()!, callbackManager: &fhir.callbackManager!), nil)
+                callback(Instruments.Web.OmronBloodPressure.instance(authSettings: FHIRManager.OmronAuthSettings()!, callbackManager: &manager.callbackManager!), nil)
             }
             else {
                 callback(nil, nil)

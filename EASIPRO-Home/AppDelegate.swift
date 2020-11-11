@@ -12,29 +12,39 @@
  */
 
 import UIKit
+//Step1
 import SMARTMarkers
 import ResearchKit
 import SMART
-import UserNotifications
-import HealthKit
+
+
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
     
+	// *******************************************************
+	// Step2: Configure FHIR endpoints and Initialize
+
     lazy var fhir: FHIRManager! = {
-        return FHIRManager.SMARTSandbox()
+		
+		// Obtained form SMART Sandbox: https://launch.smarthealthit.org
+		let fhir_endpoint = "https://launch.smarthealthit.org/v/r4/sim/eyJrIjoiMSIsImIiOiJiODVkN2UwMC0zNjkwLTRlMmEtODdhMC1mM2QyZGZjOTA4YjMifQ/fhir"
+
+		let settings = [
+			"client_name"   : "appDemo",
+			"client_id"     : "appDemo-id",
+			"redirect"      : "smartmarkers-home://smartcallback",
+			"scope"         : "openid profile user/*.* launch"
+		]
+
+		let client = Client(baseURL: URL(string: fhir_endpoint)!, settings: settings)
+
+		return FHIRManager(main: client, promis: nil)
+
     }()
     
-    var omron: OMRON!
-
-
-    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-        UNUserNotificationCenter.current().delegate = self
-        
-        return true
-    }
 
     func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
 
@@ -45,38 +55,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if url.scheme == "smpro" {
             fhir.callbackManager?.handleRedirect(url: url)
         }
-        
-
-        return false
+		
+		return false
     }
-    
-    func application(_ application: UIApplication, performFetchWithCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
-        
-        
+	
+	
+	// *******************************************************
 
-        
-    }
-    
-    func showOmron() {
-        
-        omron.sm_taskController { (task, e) in
-            if let t = task {
-                self.window?.rootViewController?.present(t, animated: true, completion: nil)
-            }
-        }
-        
-        
-    }
-    
-
-    
-}
-
-extension AppDelegate : UNUserNotificationCenterDelegate {
-    
-    public func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
-        
-        completionHandler()
-    }
     
 }
