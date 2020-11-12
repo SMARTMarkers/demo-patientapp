@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "D4C9EA532098F57E006D41DB"
-               BuildableName = "PatientAppDemo.app"
+               BuildableName = "SMARTMarkers Patient.app"
                BlueprintName = "PatientAppDemo"
                ReferencedContainer = "container:PatientAppDemo.xcodeproj">
             </BuildableReference>
@@ -45,7 +45,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "D4C9EA532098F57E006D41DB"
-            BuildableName = "PatientAppDemo.app"
+            BuildableName = "SMARTMarkers Patient.app"
             BlueprintName = "PatientAppDemo"
             ReferencedContainer = "container:PatientAppDemo.xcodeproj">
          </BuildableReference>
@@ -62,7 +62,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "D4C9EA532098F57E006D41DB"
-            BuildableName = "PatientAppDemo.app"
+            BuildableName = "SMARTMarkers Patient.app"
             BlueprintName = "PatientAppDemo"
             ReferencedContainer = "container:PatientAppDemo.xcodeproj">
          </BuildableReference>
