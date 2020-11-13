@@ -40,7 +40,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 		]
 
 		let client = Client(baseURL: URL(string: fhir_endpoint)!, settings: settings)
-
+        client.authProperties.granularity = .tokenOnly
 		return FHIRManager(main: client, promis: nil)
 
     }()

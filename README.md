@@ -4,38 +4,39 @@ Patient App Demonstration
 Transcript
 ---------
 
-In this session, I will not only demonstrate the app, but also show how to build a Patient facing app for Patient Generated Health data  in __less than 10mins__ using SMART Markers
+What I'd like to do now, is first, show how to build and run a PGHD app for a mobile device  in __less than 10mins__ using SMART Markers
 
-We want to build an app for Patients where they are be able to receive and respond to requests from their practitioners by generating and submitting results, right from  their device all in the FHIR Format. 
+This app would be for Patients where they are be able to receive and respond to requests from their care-team by generating and submitting results, right from  their device, and, all– in the FHIR Format. While this is an iOS version, we also have a React-Native version for Android and the Web built on similar principles.
 
-Lets start with an empty app with only boilerplate code with two Views.
+Lets start with an empty app with only boilerplate code with just  two Views. [Show empty app]
 
-## Step1: Import SMART Markers framework into the  project directory and as a module in project files– usually a simple one liner.
+## First, Import SMART Markers framework into the  project directory, and, as a module in project files------  this is a simple one liner.
 
 -----------------------------------
 
-## Step2: Configure FHIR endpoints and Initialize
+## (2) Next, we need to configure and intialize FHIR client– a submodule of SMARTMarkers. The endpoints used here are to access the  SMART Sandbox  server  hosted by our team. But Developers can replace them with anyother compliant FHIR endpoint.
 
-Next, we configure and intialize a FHIR client. The endpoints used here are to access the  SMART Sandbox FHIR server  hosted by our team. But Developers can replace them with anyother compliant FHIR server.
+### Settings are what you usually get from the EHR. As per the SMART App Launch specification. And this is pretty much standard across the board.
 
 
 ```swift
 
 lazy var fhir: FHIRManager! = {
+    
+    // Obtained form SMART Sandbox: https://launch.smarthealthit.org
+    let fhir_endpoint = "https://launch.smarthealthit.org/v/r4/sim/eyJrIjoiMSIsImIiOiJiODVkN2UwMC0zNjkwLTRlMmEtODdhMC1mM2QyZGZjOTA4YjMifQ/fhir"
 
-	// Obtained form SMART Sandbox: https://launch.smarthealthit.org
-	let fhir_endpoint = "launch.smarthealthit.org/v/r4/sim/eyJrIjoiMSIsImIiOiJiODVkN2UwMC0zNjkwLTRlMmEtODdhMC1mM2QyZGZjOTA4YjMifQ/fhir"
+    let settings = [
+        "client_name"   : "appDemo",
+        "client_id"     : "appDemo-id",
+        "redirect"      : "smartmarkers-home://smartcallback",
+        "scope"         : "openid profile user/*.* launch"
+    ]
 
-	let settings = [
-		"client_name"   : "appDemo",
-		"client_id"     : "appDemo-id",
-		"redirect"      : "smartmarkers-home://smartcallback",
-		"scope"         : "openid profile user/*.* launch"
-	]
+    let client = Client(baseURL: URL(string: fhir_endpoint)!, settings: settings)
+    client.authProperties.granularity = .tokenOnly
+    return FHIRManager(main: client, promis: nil)
 
-	let client = Client(baseURL: URL(string: fhir_endpoint)!, settings: settings)
-
-	return FHIRManager(main: client, promis: nil)
 }()
 
 func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
@@ -53,12 +54,9 @@ func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpe
 ```
 -----------------------------------
 
-## Step 3: SMART Authorization sequence
+## (3) With that in place, we can now add some code that initiates user authentication,  which, after successful completion,  resolves the most appropriate username from the FHIR resource.  In this case, its the Patient resource, hence we get the patient name. I would use the same function if the Practitioner were logging in, and in that case, I'd receive the Practitioner's name
 
-
-With that in place, we can now add some code that initiates user authentication,  which, after successful completion,  resolves the most appropriate username from the FHIR resource.  In this case, its the Patient resource
-
-This method, is also part of the SMART lib that is used within the framework
+This method, is also part of the SMART lib that is used within the framework and its as simple writing One function.
 
 ```swift
 manager.authorize { [weak self] (success, userName, error) in
@@ -77,11 +75,9 @@ manager.authorize { [weak self] (success, userName, error) in
 
 -----------------------------------
 
-## Step 4: Get all Requests and Reports for the Patient
+## (4) Assuming login was successful, we now want to fetch all the PGHD related `Requests`, the instruments embedded in those requests and any historical `Reports` previously submitted, all appropriately grouped and sorted by thier due dates and completion status.
 
-Once successfully logged in as a patient, we now want to fetch all the PGHD related `Requests`, the instruments embedded in those requests and any historical `Reports` previously submitted, all appropriately grouped and sorted by thier due dates and completion status.
-
-SMART Markers hides all the quering complexity and exploses APIs todo just that, with only a few lines of code.
+SMART Markers hides all the quering complexity and exploses APIs todo just that, and, with only, a few lines of code.
 
 ```swift
 guard let patient = manager.patient else { return }
@@ -90,7 +86,7 @@ self.title = "Loading.."
 TaskController.Requests(requestType: ServiceRequest.self,
 						for: patient,
 						server: manager.main.server,
-						instrumentResolver: self) { [weak self] (controllers, error) in
+						instrumentResolver: self) { [weak self] (tasks, error) in
 	DispatchQueue.main.async {
         // Update the UI
 		if let controllers = controllers {
@@ -104,11 +100,11 @@ TaskController.Requests(requestType: ServiceRequest.self,
 
 -----------------------------------
 
-## Step 5: Lets now take a deeper look at one Request and its data in a different View
+## (5) Lets now take a deeper look at one Request and its data in a different View
 
-For this request, I'd like to display its metadata, which means its identifier, request date, and the practitioner  who requested it. 
+For this request, I'd like to display some metadata, which means its identifier, request date, and the practitioner  who requested it. 
 
-We also want to list  any previous results that were submited.  
+We also want to list  any results that were submited previously, as part of this request  
 
 #### 5.1: Metadata in `viewDidLoad()`
 
@@ -135,16 +131,13 @@ if let viewer = report.rp_viewController {
 ```
 
 
-#### Step 7: Add a PGHD session generator
+#### (6) Finally, some code that initiates a data generating session for the instrument. What I mean by that is, if the patient was sent a Questionnaire, then a survey module is created and presented to the user to record responses which results in a new FHIR  QuestionnaireResponse.
 
-Finally, some code that initiates a data generating session as per the instrument. What I mean by that is, if a Questionnaire was requested, then a survey module is created and presented to the user to record responses which results in a new FHIR  QuestionnaireResponse.
-
-All this, is handled by SMART Markers and its submodules behind the scenes further. This required an enourmous amout of code to precisely parse FHIR elements and create a representative survey session.  
+All this, is handled by SMART Markers and its submodules behind the scenes. This required an enourmous amout of code to precisely parse FHIR elements and create a representative user interface for patients to respond on. But for developers creating an app,  this is as simple as adding just 15 lines of code
 
 ```swift
 
 	var sessionController : SessionController?
-
 
 	sessionController = SessionController([task],
 									  patient: manager.patient!, 
@@ -169,9 +162,7 @@ All this, is handled by SMART Markers and its submodules behind the scenes furth
 		 self?.reload()
 	 }
 ```
-### With only these few lines, developers completely avoid writing 1000s of lines of code in their apps.
-
-## and.. some error handling.
+Of course, we need some error handling.
 
 
 ```swift
@@ -194,7 +185,10 @@ extension DetailViewController : SessionControllerDelegate {
 }
 ```
 
-### We are now good to go, lets build and run. While this is an iOS version, we also have a React-Native version for Android and the Web built on similar principles. I'd like to add here that there are many abstraction layers and convinience methods that developers can use as per their need. Not every module is absolutely essential to use. For example, a simple app that is dedicated to only  One instrument, can also be created. Many custom interfaces can be built using SMART Markers.
+### And now, we are now good to go, lets build and run.  I'd like to add here that there are many abstraction layers and convinience methods that i did not mention, but alot of it is detailed on our github page. Not every module is absolutely essential to use. For example, there can be a simple app that is dedicated to only  One instrument. Plus Many custom interfaces can be built on top of this framework. 
+
+
+### That was a quick demo for patients app. Same methods can be used for practitioners app which can aditionally list all avialable instruments and as I said earliar, there are web and android versions too.
 
 
 #### Step 7: Add a submission module
