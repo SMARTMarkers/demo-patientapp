@@ -8,17 +8,20 @@
 
 import UIKit
 import SMARTMarkers
-import ResearchKit
-import SMART
+
 
 
 class MainViewController: UITableViewController {
     
     // Get fhir manager from the appDelegate
-    lazy var manager: FHIRManager! = {
+    lazy var manager: FHIRManager? = {
         
-        let fhr = (UIApplication.shared.delegate as! AppDelegate).fhir
-        return fhr
+        // Uncomment the following reference to the FHIR Manager created in AppDelegate
+        /*
+         let fhr = (UIApplication.shared.delegate as! AppDelegate).fhir
+         return fhr
+        */
+        
     }()
     
     
@@ -31,42 +34,20 @@ class MainViewController: UITableViewController {
 
     @IBOutlet weak var btnLogin: UIBarButtonItem!
 	
-	// *******************************************************
-	// Step 3: SMART Authorization Sequence
+
 	@IBAction func loginAction(_ sender: Any) {
         
-        manager.authorize { [weak self] (success, userName, error) in
-            if success {
-                if let patientName = userName {
-                    self?.title = patientName
-                }
-            }
-            else {
-                if let error = error {
-                    self?.showMsg(msg: "Authorization Failed.\n\(error.asOAuth2Error.localizedDescription)")
-                }
-            }
-        }
+        // *******************************************************
+        // Step 3: SMART Authorization Sequence:
+   
 	}
-    
-    // *******************************************************
-	// Step 4: SMART Authorization Sequence
-	@IBAction func refreshPage(_ sender: Any) {
-		guard let patient = manager.patient else { return }
-		self.title = "Loading.."
 
-		TaskController.Requests(requestType: ServiceRequest.self,
-								for: patient,
-								server: manager.main.server,
-								instrumentResolver: self) { [weak self] (controllers, error) in
-			DispatchQueue.main.async {
-				if let controllers = controllers {
-					self?.tasks = self?.sort(controllers)
-				}
-				if nil != error { print(error! as Any) }
-				self?.markStandby()
-			}
-		}
+	@IBAction func refreshPage(_ sender: Any) {
+        
+        // *******************************************************
+        // Step 4: Load all Requests, instruments and historical FHIR submissions
+        
+        
     }
 	
 	
@@ -118,7 +99,7 @@ class MainViewController: UITableViewController {
     
     @IBAction func showPatientProfile(_ sender: Any) {
 		
-        if manager.patient == nil {
+        if manager?.patient == nil {
             loginAction(sender)
         }
     }
@@ -137,10 +118,10 @@ class MainViewController: UITableViewController {
 	
 	open func markStandby() {
 		DispatchQueue.main.async {
-			let _title = self.manager.patient?.humanName ?? "PGHD Requests"
+			let _title = self.manager?.patient?.humanName ?? "PGHD Requests"
 			self.title = _title
 			self.tableView.reloadData()
-			if self.manager.patient != nil {
+			if self.manager?.patient != nil {
 				self.btnLogin.title = ""
 			}
 		}
@@ -196,7 +177,7 @@ extension MainViewController: InstrumentResolver {
         
         if let url = controller.request?.rq_instrumentMetadataQuestionnaireReferenceURL {
             // PROMIS/AssessmentCenter hosted Questionnaire
-            if url.absoluteString.contains("https://mss.fsm.northwestern.edu"), let promisServer = manager.promis?.server {
+            if url.absoluteString.contains("https://mss.fsm.northwestern.edu"), let promisServer = manager?.promis?.server {
                 let questionnaireId = url.lastPathComponent
                 let semaphore = DispatchSemaphore(value: 0)
                 Questionnaire.read(questionnaireId, server: promisServer) { (resource, error) in
@@ -214,15 +195,6 @@ extension MainViewController: InstrumentResolver {
                 callback(nil, nil)
             }
         }
-        else
-        if let code = controller.request?.rq_code {
-            if code.system?.absoluteString == "http://omronhealthcare.com" {
-                callback(Instruments.Web.OmronBloodPressure.instance(authSettings: FHIRManager.OmronAuthSettings()!, callbackManager: &manager.callbackManager!), nil)
-            }
-            else {
-                callback(nil, nil)
-            }
-        }
         else {
             callback(nil, nil)
         }
@@ -231,3 +203,28 @@ extension MainViewController: InstrumentResolver {
     
     
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+import ResearchKit
+import SMART

@@ -12,7 +12,7 @@ import SMARTMarkers
 class ChartsViewController: InsightsController {
 
     // Get fhir manager from the appDelegate
-    var fhir: FHIRManager! = (UIApplication.shared.delegate as! AppDelegate).fhir
+//    var fhir: FHIRManager! = (UIApplication.shared.delegate as! AppDelegate).fhir
     
     override func viewDidLoad() {
         super.viewDidLoad()

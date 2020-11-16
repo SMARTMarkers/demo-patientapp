@@ -11,11 +11,8 @@
 		D42825C3239ED524009763F7 /* SMARTMarkers.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D42825C2239ED524009763F7 /* SMARTMarkers.framework */; };
 		D42825C4239FED03009763F7 /* ResearchKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = D42825C0239ED524009763F7 /* ResearchKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		D42825C5239FED03009763F7 /* SMARTMarkers.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = D42825C2239ED524009763F7 /* SMARTMarkers.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		D42B50D4228B7AB4007AC6D2 /* SMART.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D4AD20B1209AAD990050AF19 /* SMART.framework */; };
-		D42B50D5228B7AB4007AC6D2 /* SMART.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = D4AD20B1209AAD990050AF19 /* SMART.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		D42EDE91238D80F40010C17C /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D42EDE90238D80F40010C17C /* Extensions.swift */; };
 		D45DE63A2099FA3D00D3C6A2 /* MainCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D45DE6392099FA3D00D3C6A2 /* MainCell.swift */; };
-		D45DE641209A0F4000D3C6A2 /* ChartsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D45DE640209A0F4000D3C6A2 /* ChartsViewController.swift */; };
 		D461C7FC209A4C7F0084A85C /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D461C7FB209A4C7F0084A85C /* DetailViewController.swift */; };
 		D4C9EA582098F57E006D41DB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C9EA572098F57E006D41DB /* AppDelegate.swift */; };
 		D4C9EA5F2098F57E006D41DB /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D4C9EA5D2098F57E006D41DB /* Main.storyboard */; };
@@ -88,7 +85,6 @@
 			files = (
 				D42825C4239FED03009763F7 /* ResearchKit.framework in Embed Frameworks */,
 				D42825C5239FED03009763F7 /* SMARTMarkers.framework in Embed Frameworks */,
-				D42B50D5228B7AB4007AC6D2 /* SMART.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -101,12 +97,10 @@
 		D42825C2239ED524009763F7 /* SMARTMarkers.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = SMARTMarkers.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D42EDE90238D80F40010C17C /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		D45DE6392099FA3D00D3C6A2 /* MainCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainCell.swift; sourceTree = "<group>"; };
-		D45DE640209A0F4000D3C6A2 /* ChartsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartsViewController.swift; sourceTree = "<group>"; };
 		D461C7FB209A4C7F0084A85C /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		D4A66211255C48650081570F /* SMARTMarkers.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SMARTMarkers.xcodeproj; path = SMARTMarkers/SMARTMarkers.xcodeproj; sourceTree = "<group>"; };
 		D4A66217255C496C0081570F /* ResearchKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ResearchKit.xcodeproj; path = SMARTMarkers/ResearchKit/ResearchKit.xcodeproj; sourceTree = "<group>"; };
 		D4A66221255C49760081570F /* SwiftSMART.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SwiftSMART.xcodeproj; path = SMARTMarkers/SwiftSMART/SwiftSMART.xcodeproj; sourceTree = "<group>"; };
-		D4AD20B1209AAD990050AF19 /* SMART.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = SMART.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D4C9EA542098F57E006D41DB /* SMARTMarkers Patient.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "SMARTMarkers Patient.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D4C9EA572098F57E006D41DB /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D4C9EA5E2098F57E006D41DB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -127,7 +121,6 @@
 			files = (
 				D42825C1239ED524009763F7 /* ResearchKit.framework in Frameworks */,
 				D42825C3239ED524009763F7 /* SMARTMarkers.framework in Frameworks */,
-				D42B50D4228B7AB4007AC6D2 /* SMART.framework in Frameworks */,
 				D4DFD9A2224137A10097B958 /* HealthKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -184,7 +177,6 @@
 				D4A66217255C496C0081570F /* ResearchKit.xcodeproj */,
 				D4A66211255C48650081570F /* SMARTMarkers.xcodeproj */,
 				D4FEBDB521E52C3F0057C77D /* README.md */,
-				D4AD20B1209AAD990050AF19 /* SMART.framework */,
 				D4C9EA562098F57E006D41DB /* EASIPRO-Home */,
 				D4C9EA552098F57E006D41DB /* Products */,
 				D4DFD9A0224137A10097B958 /* Frameworks */,
@@ -206,7 +198,6 @@
 				D4C9EA572098F57E006D41DB /* AppDelegate.swift */,
 				D45DE6392099FA3D00D3C6A2 /* MainCell.swift */,
 				D4C9EA6B2098F66F006D41DB /* MainViewController.swift */,
-				D45DE640209A0F4000D3C6A2 /* ChartsViewController.swift */,
 				D461C7FB209A4C7F0084A85C /* DetailViewController.swift */,
 			);
 			path = "EASIPRO-Home";
@@ -373,7 +364,6 @@
 				D45DE63A2099FA3D00D3C6A2 /* MainCell.swift in Sources */,
 				D4C9EA582098F57E006D41DB /* AppDelegate.swift in Sources */,
 				D4C9EA6C2098F66F006D41DB /* MainViewController.swift in Sources */,
-				D45DE641209A0F4000D3C6A2 /* ChartsViewController.swift in Sources */,
 				D4D30256209BFCF800125855 /* App+Config.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

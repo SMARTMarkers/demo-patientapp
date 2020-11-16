@@ -1,21 +1,24 @@
 //
 //  AppDelegate.swift
-//  EASIPRO-Home
+//  PatientAppDemo
 //
-//  Created by Raheel Sayeed on 5/1/18.
-//  Copyright © 2018 Boston Children's Hospital. All rights reserved.
+//  Created by Raheel Sayeed on Nov 16 2020.
+//  AMIA 2020
+//  Covid Edition
 //
 /*
- Heart Icon: https://www.iconfinder.com/icons/1118211/disease_graph_heart_medical_medicine_icon#size=512
  
+ This app would be for Patients where they are be able to receive and respond to requests from their care-team by generating and submitting results, right from  their device, and, all in FHIR Format.
  
  */
+
+
+
 
 import UIKit
 //Step1
 import SMARTMarkers
-import ResearchKit
-import SMART
+
 
 
 
@@ -27,35 +30,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 	// *******************************************************
 	// Step2: Configure FHIR endpoints and Initialize
 
-    lazy var fhir: FHIRManager! = {
-		
-		// Obtained form SMART Sandbox: https://launch.smarthealthit.org
-		let fhir_endpoint = "https://launch.smarthealthit.org/v/r4/sim/eyJrIjoiMSIsImIiOiJiODVkN2UwMC0zNjkwLTRlMmEtODdhMC1mM2QyZGZjOTA4YjMifQ/fhir"
+    
 
-		let settings = [
-			"client_name"   : "appDemo",
-			"client_id"     : "appDemo-id",
-			"redirect"      : "smartmarkers-home://smartcallback",
-			"scope"         : "openid profile user/*.* launch"
-		]
-
-		let client = Client(baseURL: URL(string: fhir_endpoint)!, settings: settings)
-        client.authProperties.granularity = .tokenOnly
-		return FHIRManager(main: client, promis: nil)
-
-    }()
     
 
     func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
 
-        if fhir.main.awaitingAuthCallback {
-            return fhir.main.didRedirect(to: url)
-        }
+        // *******************************************************
+        // Step2.1: Call back
+
         
-        if url.scheme == "smpro" {
-            fhir.callbackManager?.handleRedirect(url: url)
-        }
-		
+        
 		return false
     }
 	
@@ -64,3 +49,27 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+import SMART

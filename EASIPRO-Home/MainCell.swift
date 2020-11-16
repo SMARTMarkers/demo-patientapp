@@ -1,6 +1,6 @@
 //
 //  MainCell.swift
-//  EASIPRO-Home
+//  PatientAppDemo
 //
 //  Created by Raheel Sayeed on 5/2/18.
 //  Copyright © 2018 Boston Children's Hospital. All rights reserved.

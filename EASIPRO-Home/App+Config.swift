@@ -85,17 +85,8 @@ extension PROMISClient {
     
     public class func New() -> PROMISClient {
         
-        let infoDict = Bundle.main.infoDictionary!
-        guard var baseURI = infoDict["ASSESSMENTCENTER_BASE_URL"] as? String else {
-            fatalError("Need PROMIS AssessmentCenter Endpoint")
-        }
-        
-        if !baseURI.hasPrefix("http") {
-            baseURI = "https://" + baseURI
-        }
-        
-        return PROMISClient(baseURL: URL(string: baseURI)!,
-                            client_id: infoDict["ASSESSMENTCENTER_ACCESSID"] as! String,
-                            client_secret: infoDict["ASSESSMENTCENTER_ACCESSTOKEN"] as! String)
+        return PROMISClient(baseURL: URL(string: "")!,
+                            client_id: "",
+                            client_secret: "")
     }
 }
