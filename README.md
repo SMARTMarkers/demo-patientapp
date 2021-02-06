@@ -1,11 +1,17 @@
-Patient App Demonstration
+SMART Markers Patient App Demonstration
 =====================
 
 
 This app would be for Patients where they are be able to receive and respond to requests from their care-team by generating and submitting results, right from  their device, and, all– in the FHIR Format. While this is an iOS version, we also have a React-Native version for Android and the Web built on similar principles.
 
+# INSTALLATION
 
-## First, Import SMART Markers framework into the  project directory, and, as a module in project files------  this is a simple one liner.
+1. `$ git clone --recursive https://github.com/SMARTMarkers/demo-patientapp`
+2. Get SMART on FHIR Server endpoints from `https://launch.smarthealthit.org`. Select `Patient Standalone Launch` as the launch type. FHIR Version: `R4`. And finally select one patient from the drop down list. __Finally__, copy the `FHIR Server Url` to be configured in the app`
+
+----------------------------------
+
+## (1) Import SMART Markers framework into the  project directory, and, as a module in project files------  this is a simple one liner.
 
 -----------------------------------
 
